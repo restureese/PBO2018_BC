@@ -99,8 +99,18 @@ public class DataBarang extends javax.swing.JFrame {
         });
 
         btnUbah.setText("Ubah");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
 
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,6 +205,44 @@ public class DataBarang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        // TODO add your handling code here:
+        try {
+            Connection connect = new Koneksi().getKoneksi();
+            
+            String sql = "UPDATE `databarang` SET `nama`=?,`jenis`=?,`supplier`=?,`jumlah`=?,`harga`=? WHERE kode=?";
+            PreparedStatement statement = connect.prepareStatement(sql);
+            statement.setString(1, txtNama.getText());
+            String jenis = rbMakanan.isSelected() ? "Makanan" : "Minuman";
+            statement.setString(2, jenis);
+            statement.setString(3, cbSupplier.getSelectedItem().toString());
+            statement.setString(4, txtJumlah.getText());
+            statement.setString(5, txtJumlah.getText());
+            statement.setString(6, txtKode.getText());
+            statement.execute();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+            this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:
+        try {
+            Connection connect = new Koneksi().getKoneksi();
+            
+            String sql = "DELETE FROM `databarang` WHERE kode=?";
+            PreparedStatement statement = connect.prepareStatement(sql);
+            statement.setString(1, txtKode.getText());
+            statement.execute();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+            this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
      * @param args the command line arguments
